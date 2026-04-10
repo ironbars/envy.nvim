@@ -78,7 +78,6 @@ function M.open(opts)
     finder = finders.new_dynamic({
       fn = function(query)
         local results = search.search(query, search_opts)
-        print("query: " .. (query or nil) .. "results: " .. #results)
         return results
       end,
       entry_maker = make_envy_entry({search_dirs = config.options.search_dirs})

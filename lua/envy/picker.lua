@@ -36,9 +36,8 @@ end
 -- Build a display entry from search results
 local function make_envy_entry(opts)
   local displayer = entry_display.create({
-    separator = "|",
+    separator = "",
     items = {
-      {width = 30},
       {remaining = true},
     },
   })
@@ -51,7 +50,6 @@ local function make_envy_entry(opts)
 
     return displayer({
       {filename, "TelescopeResultsIdentifier"},
-      {line_content, "TelescopeResultsComment"},
     })
   end
 

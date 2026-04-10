@@ -15,16 +15,29 @@ local config = require("envy.config")
 
 -- Format path for display
 local function format_path(path, search_dirs)
+  local display_mode = config.options.path_display
+
+  local name = vim.fn.fnamemodify(path, ":t:r")
+
+  if display_mode == "filename" then
+    return name
+  end
+
   for _, dir in ipairs(search_dirs) do
     local expanded = vim.fn.expand(dir)
 
     if path:sub(1, #expanded) == expanded then
       local relative = path:sub(#expanded + 2)
 
+      if display_mode == "full" then
+        return vim.fn.fnamemodify(path, ":~")
+      end
+
       if not relative:find("/") then
-        return vim.fn.fnamemodify(path, ":t:r")
+        return name
       else
-        return vim.fn.fnamemodify(path, ":t:r") .. "(" .. vim.fn.fnamemodify(path, ":h:t") .. ")"
+        local subdir = vim.fn.fnamemodify(path, ":h:t")
+        return name .. "(" .. subdir .. ")"
       end
     end
   end

@@ -7,6 +7,7 @@ local defaults = {
   use_ignore_files = true,
   include_hidden = false,
   keymap = "<leader>nn",
+  path_display = "filename",
 }
 
 M.options = {}

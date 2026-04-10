@@ -1,0 +1,196 @@
+*envy.txt*  Note-taking plugin for Neovim                          *envy*
+
+==============================================================================
+INTRODUCTION                                                *envy-introduction*
+
+Envy is a Neovim plugin for searching and managing plain-text notes. It
+provides a unified Telescope picker that searches both filenames and file
+contents simultaneously, returning results sorted by modification time —
+most recently edited notes first.
+
+The name is a gramogram: NV, as in Notational Velocity, the note-taking
+philosophy that inspired this plugin, and as in NeoVim.
+
+Envy requires:
+  - Neovim 0.10+
+  - telescope.nvim
+  - ripgrep (rg)
+  - bat (optional, for syntax-highlighted previews)
+
+==============================================================================
+SETUP                                                              *envy-setup*
+
+Call the setup function in your Neovim configuration: >
+
+    require("envy").setup({
+        search_dirs = { "~/notes" },
+        keymap = "<leader>en",
+    })
+
+==============================================================================
+CONFIGURATION                                                     *envy-config*
+
+All configuration is passed to |envy-setup|. Available options:
+
+                                                          *envy-search_dirs*
+search_dirs ~
+    Type: table of strings
+    Default: { "~/notes" }
+
+    List of directories to search for notes. Supports `~` expansion. >
+
+        search_dirs = { "~/notes", "~/work/notes" }
+
+                                                    *envy-default_extension*
+default_extension ~
+    Type: string
+    Default: ".md"
+
+    File extension used when creating new notes. >
+
+        default_extension = ".md"
+
+                                                         *envy-sort_by_mtime*
+sort_by_mtime ~
+    Type: boolean
+    Default: true
+
+    Sort results by modification time, newest first. When false, results
+    are returned in filesystem order. >
+
+        sort_by_mtime = true
+
+                                                       *envy-use_ignore_files*
+use_ignore_files ~
+    Type: boolean
+    Default: true
+
+    Respect .gitignore and similar ignore files when searching. >
+
+        use_ignore_files = true
+
+                                                        *envy-include_hidden*
+include_hidden ~
+    Type: boolean
+    Default: false
+
+    Include hidden files and directories in search results. >
+
+        include_hidden = false
+
+                                                           *envy-path_display*
+path_display ~
+    Type: string
+    Default: "filename"
+
+    Controls how file paths are displayed in the results list.
+
+    "filename"  Show only the note title, no path information. Best for
+                flat note directories.
+    "relative"  Show "title (subdir)" for notes in subdirectories, just
+                the title for top-level notes.
+    "full"      Show the full path from home directory. >
+
+        path_display = "filename"
+
+                                                               *envy-keymap*
+keymap ~
+    Type: string or false
+    Default: "<leader>en"
+
+    Normal mode keymap to open the envy picker. Set to false to disable
+    the default keymap and define your own. >
+
+        keymap = "<leader>en"
+
+        -- Or define your own:
+        keymap = false
+        vim.keymap.set("n", "<leader>nn", require("envy").open)
+
+==============================================================================
+USAGE                                                              *envy-usage*
+
+                                                                      *:Envy*
+:Envy
+    Open the envy note picker.
+
+                                                                  *envy-open*
+require("envy").open()
+    Open the envy note picker programmatically. Useful for custom keymaps
+    or calling from other plugins.
+
+==============================================================================
+PICKER                                                            *envy-picker*
+
+The envy picker is a Telescope interface with the following behavior:
+
+SEARCHING ~
+    As you type, envy searches both filenames and file contents using
+    ripgrep. Results are deduplicated (one entry per file) and sorted by
+    modification time. Filename matches take priority over content matches
+    — if your query matches both the filename and content of a note, the
+    note appears once, opened at line 1.
+
+    Spaces in your query are handled correctly and will match notes whose
+    filenames contain spaces.
+
+PREVIEW ~
+    The preview window shows the contents of the highlighted note. For
+    content matches, the preview scrolls to and highlights the matching
+    line. Requires bat for syntax highlighting; falls back to plain text.
+
+==============================================================================
+KEYMAPS                                                         *envy-keymaps*
+
+The following keymaps are available inside the picker:
+
+    <CR>        Open selected note
+    <C-s>       Open in horizontal split
+    <C-v>       Open in vertical split
+    <C-x>       Create new note named after current query
+    <C-j>       Move to next result (if configured in Telescope defaults)
+    <C-k>       Move to previous result (if configured in Telescope defaults)
+
+==============================================================================
+CREATING NOTES                                              *envy-create-notes*
+
+Press <C-x> with text in the prompt to create a new note. The note will
+be created in the first directory in |envy-search_dirs| with the
+extension defined in |envy-default_extension|.
+
+For example, with the default configuration, typing "my new note" and
+pressing <C-x> will create: >
+
+    ~/notes/my new note.md
+
+==============================================================================
+TIPS                                                              *envy-tips*
+
+STARTUP ALIAS ~
+    To open Neovim directly into envy from the terminal, add a shell
+    alias or script: >
+
+        #!/bin/zsh
+        cd ~/notes && nvim -c "autocmd VimEnter * ++once Envy"
+
+TAGGING ~
+    Envy does not enforce a tagging convention, but works well with
+    inline tags in your notes. A tag syntax with low collision risk: >
+
+        @mytag
+
+    Search for tags using ripgrep directly: >
+
+        rg -oIN '@[A-Za-z0-9_-]+' ~/notes | sort -u
+
+VIMWIKI INTEGRATION ~
+    Envy pairs well with vimwiki for [[wiki-style]] links between notes.
+    See |vimwiki| for setup instructions.
+
+==============================================================================
+LICENSE                                                         *envy-license*
+
+MIT License. Copyright (c) 2026 Marc Patton.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:

@@ -85,8 +85,12 @@ function M.open(opts)
     use_ignore_files = config.options.use_ignore_files,
     include_hidden = config.options.include_hidden,
   }
+  local telescope_opts = vim.tbl_extend("force", opts, {
+    default_text = opts.initial_query or ""
+  })
+  telescope_opts.initial_query = nil
 
-  pickers.new(opts, {
+  pickers.new(telescope_opts, {
     prompt_title = "envy",
     finder = finders.new_dynamic({
       fn = function(query)

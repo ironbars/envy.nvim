@@ -144,6 +144,12 @@ function M.open(opts)
         vim.cmd("edit " .. vim.fn.fnameescape(new_path))
       end)
 
+      -- Quit envy AND vim
+      map("i", "<C-q>", function()
+        actions.close(prompt_bufnr)
+        vim.cmd("qa")
+      end)
+
       return true
     end,
   }):find()

@@ -96,16 +96,17 @@ path_display ~
                                                                *envy-keymap*
 keymap ~
     Type: string or false
-    Default: "<leader>en"
+    Default: "<leader>nn"
 
     Normal mode keymap to open the envy picker. Set to false to disable
-    the default keymap and define your own. >
+    the default keymap and define your own.  You can also override this by
+    calling the setup function (see |envy-setup| for an example).  >
 
-        keymap = "<leader>en"
+        keymap = "<leader>nn"
 
         -- Or define your own:
         keymap = false
-        vim.keymap.set("n", "<leader>nn", require("envy").open)
+        vim.keymap.set("n", "<leader>en", require("envy").open)
 
 ==============================================================================
 USAGE                                                              *envy-usage*

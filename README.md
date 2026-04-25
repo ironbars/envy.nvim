@@ -49,7 +49,7 @@ Plug 'ironbars/envy.nvim'
 ## Usage
 
 This plugin provides a single command, `:Envy`.  That command will open the note picker, where you
-can fuzzy search your notes.  It is very much like
+can search your notes.  It is very much like
 [Telescope's](https://github.com/nvim-telescope/telescope.nvim) `live_grep`, but (I think) a bit
 more refined: the files are sorted by mtime and deduplicated, so even if a note matches multiple
 lines, it'll only show up in the list once.  Some may find this undesirable.  It's fine for me

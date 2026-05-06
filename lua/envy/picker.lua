@@ -140,7 +140,7 @@ function M.open(opts)
       end)
 
       -- Create new note from query
-      map("i", "<C-x>", function()
+      map("i", "<C-CR>", function()
         local query = action_state.get_current_line()
         if query == "" then return end
         actions.close(prompt_bufnr)

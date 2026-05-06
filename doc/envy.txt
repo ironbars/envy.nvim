@@ -148,19 +148,19 @@ The following keymaps are available inside the picker:
     <CR>        Open selected note
     <C-s>       Open in horizontal split
     <C-v>       Open in vertical split
-    <C-x>       Create new note named after current query
+    <C-CR>       Create new note named after current query
     <C-j>       Move to next result (if configured in Telescope defaults)
     <C-k>       Move to previous result (if configured in Telescope defaults)
 
 ==============================================================================
 CREATING NOTES                                              *envy-create-notes*
 
-Press <C-x> with text in the prompt to create a new note. The note will
+Press <C-CR> with text in the prompt to create a new note. The note will
 be created in the first directory in |envy-search_dirs| with the
 extension defined in |envy-default_extension|.
 
 For example, with the default configuration, typing "my new note" and
-pressing <C-x> will create: >
+pressing <C-CR> will create: >
 
     ~/notes/my new note.md
 

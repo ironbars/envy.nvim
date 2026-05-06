@@ -77,7 +77,7 @@ require("envy").open({ initial_query = "<query>" })
 - `<CR>`: open the selected note
 - `<C-s>`: open in horizontal split
 - `<C-v>`: open in vertical split
-- `<C-x>`: create a new note named for the current query
+- `<C-CR>`: create a new note named for the current query
 
 When creating a note, it will named as `<current_query><default_extension>`. For example, if
 `default_extension = ".md"` (the default), and your current query is `my snacks`, you'd get a new
